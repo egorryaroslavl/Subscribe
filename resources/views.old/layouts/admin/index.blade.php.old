@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+@include('admin.head.head')
+<body>
+<div id="wrapper">
+    @include('admin.navigation.mainmenu')
+    <div id="page-wrapper" class="gray-bg">
+        @include('admin.navigation.navbar_top')
+        @yield('content')
+        @include('admin.footer.footer')
+    </div>
+</div>
+<div id="placeModal"></div>
+<input type="hidden" name="_token" id="_token" value="{{csrf_token()}}"/>
+@include('admin.scripts')
+</body>
+</html>
