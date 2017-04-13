@@ -5,15 +5,15 @@
 | г. Ярославль ул. Свободы, 41, офис 20 (2-й этаж) (4852) 74-55-59 (отдел продаж), (4852) 73-92-03 (отдел продаж), (4852) 32-01-34 (отдел продаж) <br> График работы в праздники: только 4 января с 10:00 - 15:00;<br> График работы с 1 января по 1 апреля: пн-пт с 10:00 - 18:00, суб. с 10:00 - 15:00    |   |
 -------------
 @endcomponent
-
+<div style="font-size: 28px;color:#ff6d00;text-align: center">Новое предложение!</div>
 @component( 'mail::message' )
-##Добрый день, {{$data['recipient']->name}}!
+##Добрый день, {{$data['recipient']->name or 'коллеги'}}!
 ###{!! $data['subject'] !!}
 
 {!! $data['message'] !!}
 @if( !empty($data['url']) )
-@component( 'mail::button', ['url' =>   $data['url']  ] )
-	Перейти
+@component( 'mail::button', ['url' => $data['url'] ] )
+Перейти
 @endcomponent
 -------------
 @endif

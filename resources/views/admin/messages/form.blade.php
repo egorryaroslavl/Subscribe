@@ -96,48 +96,54 @@
 										class="form-control"
 										id="signature"/>
 
-							</div>
-							<hr class="sep-5">
-							<div class="ibox-content">
-								<p>
-									Выберите адресатов из левого списка кликая по ним.<br>
-									Фильтр над списками поможет вам найти нужное.
-								</p>
-								{{ Widget::PartnersSelect() }}
-							</div>
-							<div class="row">
-								<div class="col-xs-12">
-									@token()
-									@if(isset($data->id) )
-										<input type="hidden" name="id" value="{{$data->id}}">
-									@endif
-									@if (count($errors) > 0)
-										<div class="alert alert-danger">
-											<ul>
-												@foreach ( $errors->all() as $error )
-													<li style="font-size: 20px">{{ $error }}</li>
-												@endforeach
-											</ul>
-										</div>
-									@endif
-									@if (\Session::has('message'))
-										<div class="alert alert-info">{!! \Session::get('message') !!}   </div>
-									@endif
+								</div>
+								<hr class="sep-5">
+								<div class="ibox-content">
+									<p>
+										Выберите адресатов из левого списка кликая по ним.<br>
+										Фильтр над списками поможет вам найти нужное.
+									</p>
+									{{ Widget::PartnersSelect() }}
+								</div>
+								<div class="row">
+									<div class="col-xs-12">
+										@token()
+										<input type="hidden" name="history_id" value="{{time()}}"/>
+										@if(isset($data->id) )
+											<input type="hidden" name="id" value="{{$data->id}}">
+										@endif
+										@if (count($errors) > 0)
+											<div class="alert alert-danger">
+												<ul>
+													@foreach ( $errors->all() as $error )
+														<li style="font-size: 20px">{{ $error }}</li>
+													@endforeach
+												</ul>
+											</div>
+										@endif
+										@if (\Session::has('message'))
+											<div class="alert alert-info">{!! \Session::get('message') !!}   </div>
+										@endif
 
-									<div id="result"></div>
-									<input
-										{{--type="button"--}}
-										type="submit"
-										name="submitForm"
-										class="btn btn-success btn-block"
-										id="submitForm_"
-										value="ГОТОВО">
+										<div id="result"></div>
+										<input
+											type="button"
+											name="submitForm"
+											class="btn btn-primary center-block m-b"
+											id="submitForm"
+											value="ОТПРАВИТЬ ТЕСТОВОЕ СООБЩЕНИЕ">
+										<input
+											type="submit"
+											name="submitForm"
+											class="btn btn-success btn-block"
+											id="submitForm_"
+											value="ГОТОВО">
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 			</div>
 		</form>
 	</div>

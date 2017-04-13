@@ -45,8 +45,8 @@
 		Route::post( '/admin/messages/create', 'MessagesController@store' );
 
 
-		 Route::post( '/sendMail', 'MessagesController@sendMail' );
-
+		Route::post( '/sendMail', 'MessagesController@sendMail' );
+		Route::post( '/testMail', 'MessagesController@testMail' );
 
 
 		/*

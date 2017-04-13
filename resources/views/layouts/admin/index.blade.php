@@ -14,9 +14,7 @@
 				@else
 					<h2>Стартовая страница</h2>
 					<ol class="breadcrumb">
-						<li>
-							<a href="/admin">Главная</a>
-						</li>
+					 
 						<li class="active">
 							<strong>Стартовая страница</strong>
 						</li>

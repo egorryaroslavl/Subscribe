@@ -67,5 +67,27 @@ $( function(){
 	} );
 
 
+	$( "body" ).on( "click", "#submitForm", function(){
+		var message = CKEDITOR.instances.message.getData();
+		$( "#message" ).text( message );
+		$.ajax( {
+			type   : "POST",
+			url    : "/testMail",
+			data   :  $('#data-form').serialize(),
+			success: function( msg ){
+				var res = jQuery.parseJSON( msg );
+				if( res.error == 'ok' ){
+					 	alert("Тестовое сообщение отправлено! Поверьте почту.\nЕсли сообщение не содержит ошибок нажмите кнопку  \"ГОТОВО\" ");
+				}
+				if( res.error == 'error' ){
+					alert( 'Операция закончилось ошибкой!' )
+				}
+			}
+		} );
+
+	} );
+
+
+
 } );
 

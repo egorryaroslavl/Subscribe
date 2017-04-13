@@ -3,6 +3,7 @@
 	namespace App\Http\Controllers;
 
 	use App\Jobs\SendReminderEmail;
+	use App\Model\History;
 	use App\Model\Message;
 	use App\Model\Partner;
 	use Mail;
@@ -62,7 +63,6 @@
 
 				foreach( $ids as $key => $id ){
 
-
 					$partner                         = $partners::find( $id );
 					$subscribeLis[ $key ][ 'name' ]  = $partner->name;
 					$subscribeLis[ $key ][ 'email' ] = $partner->email;
@@ -79,9 +79,45 @@
 		/**
 		 * @param \Illuminate\Http\Request $request
 		 */
+		public function testMail( Request $request )
+		{
+
+
+			$subscribeList = [
+				[ 'email' => 'yaroslavl.city@gmail.com' ],
+				[ 'email' => 'denis@tcyar.ru' ]
+			];
+
+
+			foreach( $subscribeList as $user ){
+
+
+				$data = $request->all();
+
+
+				Mail::to( $user[ 'email' ] )
+					->send( new Reminder( $data ) );
+
+
+				sleep( 1 );
+
+			}
+
+			echo json_encode( [ 'error' => 'ok' ] );
+
+
+		}
+
+
+		/**
+		 * @param \Illuminate\Http\Request $request
+		 */
 		public function sendMail( Request $request )
 		{
 
+			$ok            = [];
+			$error         = [];
+			$mailRes       = [];
 			$subscribeList = Partner::whereIn( 'id', $request->partners )->get();
 
 
@@ -91,13 +127,38 @@
 				$data                = $request->all();
 				$data[ 'recipient' ] = $user;
 
-				Mail::to( $user->email )
+				$mailRes[] = Mail::to( $user->email )
 					->send( new Reminder( $data ) );
 
-				sleep( 3 );
+				if( count( Mail::failures() ) > 0 ){
+
+					foreach( Mail::failures as $email_address ){
+
+						$error[] = $email_address;
+					}
+
+				} else{
+					$ok[] = $user->email;
+				}
+				sleep( 1 );
 
 			}
-		}
 
+			$message               = new Message();
+			$message->name         = empty( $data[ 'name' ] ) ? $data[ 'subject' ] : $data[ 'name' ];
+			$message->subject      = $data[ 'subject' ];
+			$message->message      = $data[ 'message' ];
+			$message->message_type = $data[ 'message_type' ];
+
+			/*$message->history_id = $data[ 'history_id' ];*/
+
+			$message->report = [
+				'mailRes' => $mailRes,
+				'send'    => $ok,
+				'error'   => $error,
+				'data'    => $data
+			];
+			$message->save();
+		}
 
 	}

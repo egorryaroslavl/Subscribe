@@ -5,8 +5,6 @@
     $items    = config( 'admin.menu' );
     $Count    = count( $items );
 
-
-
     if( $Count > 0 ){
 
         $menuHtml = '';

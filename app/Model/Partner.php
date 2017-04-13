@@ -7,6 +7,6 @@
 	class Partner extends Model
 	{
 		/*		protected $table = 'partners';*/
-		protected $fillable = [ 'name', 'alias', 'person','status', 'email', 'description' ];
+		protected $fillable = [ 'name',  'person','status', 'email', 'description' ];
 		protected $casts = [];
 	}

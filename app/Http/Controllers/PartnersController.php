@@ -16,7 +16,22 @@
 		{
 
 
-			$data        = Partner::orderBy( 'email' )->paginate( 30 );
+			$data = Partner::orderBy( 'email' )->paginate( 30 );
+
+
+			$breadcrumbs = '
+<h2>Партнёры</h2>
+	<ol class="breadcrumb">
+						<li>
+							<a href="/admin">Главная</a>
+						</li>
+						<li>
+							Партнёры
+						</li>
+					</ol>';
+			\View::share( 'breadcrumbs', $breadcrumbs );
+
+
 			$data->table = 'partners';
 			return view( 'admin.partners.index', [ 'data' => $data ] );
 		}
@@ -27,12 +42,19 @@
 			$partners         = Partner::paginate( 30 );
 			$user             = Auth();
 			$partners->action = 'create';
-			$breadcrumbsArray = [
-				'title' => 'Партнёры',
-				'items' => [
-					'/admin/partners' => 'Партнёры',
-				]
-			];
+			$breadcrumbs = '
+<h2>Партнёры</h2>
+	<ol class="breadcrumb">
+						<li>
+							<a href="/admin">Главная</a>
+						</li>
+						<li>
+							<a href="/admin/partners">Партнёры</a>
+						</li>
+					<li>Добавление новой записи</li>	
+						
+					</ol>';
+			\View::share( 'breadcrumbs', $breadcrumbs );;
 
 			return view( 'admin.partners.form', [ 'data' => $partners, 'user' => $user ] );
 
@@ -63,9 +85,8 @@
 
 			$input = $request->all();
 
-			$input            = array_except( $input, '_token' );
-			$input[ 'alias' ] = str_slug( $request->name );
-			$id               = Partner::create( $input )->id;
+			$input = array_except( $input, '_token' );
+			$id    = Partner::create( $input )->id;
 
 
 			return redirect( '/admin/partners/edit/' . $id )->with( 'message', 'Запись добавлена! ID-' . $id );
@@ -79,6 +100,24 @@
 				$partner->status = 'common';
 			}
 			$partner->action = 'update';
+
+			$breadcrumbs = '
+<h2>Партнёры</h2>
+	<ol class="breadcrumb">
+						<li>
+							<a href="/admin">Главная</a>
+						</li>
+						<li>
+							<a href="/admin/partners">Партнёры</a>
+						</li>
+					<li>
+							 ' . $partner->name . ' 
+						</li>	
+						
+					</ol>';
+			\View::share( 'breadcrumbs', $breadcrumbs );
+
+
 			return view( 'admin.partners.form', [ 'data' => $partner ] );
 		}
 
@@ -115,7 +154,6 @@
 			$partner              = Partner::find( $request->id );
 			$partner->name        = $request->name;
 			$partner->person      = $request->person;
-			$partner->alias       = str_slug( $request->name );
 			$partner->email       = $request->email;
 			$partner->description = $request->description;
 			$partner->save();
