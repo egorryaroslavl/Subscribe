@@ -18,14 +18,11 @@
 							<thead>
 							<tr>
 								<td colspan="6">
-
 										{{ $data->links() }}
-
 								</td>
 							</tr>
 							<tr>
 								<th data-toggle="true">
-
 									<input
 										id="checkAll"
 										name="checkall"
@@ -34,8 +31,8 @@
 									>
 								</th>
 								<th data-hide="name">Сообщение</th>
-								<th data-hide="email">E-mail</th>
-								<th data-hide="phone">Статус</th>
+								<th data-hide="date">Дата</th>
+								{{--<th data-hide="phone">Статус</th>--}}
 								<th class="text-left" data-sort-ignore="true">Action</th>
 							</tr>
 
@@ -47,7 +44,7 @@
 									                     class="btn btn-danger btn-xs messages-del" value="удалить">
 								</td>
 							</tr>
-							@if(isset($data) && count($data)>0)
+							@if( isset( $data ) && count( $data ) > 0 )
 								@foreach($data as $item)
 									<tr>
 										<td>
@@ -60,16 +57,17 @@
 										</td>
 
 										<td>
-											<a href="/admin/messages/edit/{{$item->id}}">{{$item->name}}</a>
+											<a href="/admin/messages/show/{{$item->id}}">{{$item->name}}</a>
 										</td>
 										<td>
-											{{$item->email}}
-										</td>
 
-										<td>
+											{{ Carbon\Carbon::parse($item->created_at)
+											->format('d.m.Y H:i') }}
+										</td>
+									{{--	<td>
 											{{$item->status}}
 
-										</td>
+										</td>--}}
 										<td>
 											<div class="btn-group">
 												<a href="/admin/messages/edit/{{$item->id}}">

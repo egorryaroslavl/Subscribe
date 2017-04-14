@@ -85,7 +85,7 @@
 
 			$subscribeList = [
 				[ 'email' => 'yaroslavl.city@gmail.com' ],
-				[ 'email' => 'denis@tcyar.ru' ]
+				//[ 'email' => 'denis@tcyar.ru' ]
 			];
 
 
@@ -144,10 +144,10 @@
 
 			}
 
-			$message               = new Message();
-			$message->name         = empty( $data[ 'name' ] ) ? $data[ 'subject' ] : $data[ 'name' ];
-			$message->subject      = $data[ 'subject' ];
-			$message->message      = $data[ 'message' ];
+			$message          = new Message();
+			$message->name    = empty( $data[ 'name' ] ) ? $data[ 'subject' ] : $data[ 'name' ];
+			$message->subject = $data[ 'subject' ];
+			 $message->message      = $data[ 'message' ];
 			$message->message_type = $data[ 'message_type' ];
 
 			/*$message->history_id = $data[ 'history_id' ];*/
@@ -155,10 +155,38 @@
 			$message->report = [
 				'mailRes' => $mailRes,
 				'send'    => $ok,
+				'ids'     => $request->partners,
 				'error'   => $error,
-				'data'    => $data
+				/*'data'    => $data*/
 			];
 			$message->save();
 		}
+
+
+		public function show( $id )
+		{
+
+			$data = Message::find( $id );
+
+			$breadcrumbs = '
+<h2>Сообщения</h2>
+	<ol class="breadcrumb">
+						<li>
+							<a href="/admin">Главная</a>
+						</li>
+						<li>
+							<a href="/admin/messages">Сообщения</a>
+						</li>
+					<li>
+							 ' .  $data->name . ' 
+						</li>	
+						
+					</ol>';
+			\View::share( 'breadcrumbs', $breadcrumbs );
+
+			return view( 'admin.messages.show' )->with( 'data', $data );
+
+		}
+
 
 	}

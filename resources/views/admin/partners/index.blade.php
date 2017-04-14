@@ -3,29 +3,37 @@
 
 	<div class="wrapper wrapper-content animated fadeInRight ecommerce">
 		<div class="ibox-content m-b-sm border-bottom">
-<a href="/admin/partners/create"><button type="button" href="/admin/partners/create" class="btn btn-info" id="partner-create"><i class="fa fa-plus"></i> Добавть</button></a>
+			<a href="/admin/partners/create">
+				<button type="button" href="/admin/partners/create" class="btn btn-info" id="partner-create"><i
+						class="fa fa-plus"></i> Добавить
+				</button>
+			</a>
 		</div>
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="ibox">
 					<div class="ibox-content">
-						<table class="items-table table table-stripped toggle-arrow-tiny" data-page-size="15">
+
+						@include('admin.common.partner_search')
+						<div id="partnerSearchResult" style="display: block"></div>
+						<table class="items-table table table-stripped toggle-arrow-tiny" data-page-size="15"
+						       id="partner_table">
 							<thead>
 							<tr>
 								<td colspan="6">
-										{{ $data->links() }}
+									{{ $data->links() }}
 								</td>
 							</tr>
 							<tr>
 								<th data-toggle="true">
-         <input
-	         id="checkAll"
-	         name="checkall"
-	         class="checkall"
-	         type="checkbox"
-	          >
+									<input
+										id="checkAll"
+										name="checkall"
+										class="checkall"
+										type="checkbox"
+									>
 								</th>
-								<th data-hide="name">Имя</th>
+								<th data-hide="name">Название</th>
 								<th data-hide="email">E-mail</th>
 								<th data-hide="phone">Статус</th>
 								<th class="text-left" data-sort-ignore="true">Action</th>
@@ -35,7 +43,8 @@
 							<tbody>
 							<tr>
 								<td colspan="5" style="background: #ededed">
-С отмеченными  <input type="button" name="partners-del" class="btn btn-danger btn-xs partners-del" value="удалить">
+									С отмеченными <input type="button" name="partners-del"
+									                     class="btn btn-danger btn-xs partners-del" value="удалить">
 								</td>
 							</tr>
 							@if(isset($data) && count($data)>0)
@@ -58,7 +67,7 @@
 										</td>
 
 										<td>
-												{{$item->status}}
+											{{$item->status}}
 
 										</td>
 										<td>
@@ -77,22 +86,23 @@
 								@endforeach
 								<tr>
 									<td colspan="5" style="background: #ededed">
-										С отмеченными  <input type="button" name="partners-del" class="btn btn-danger btn-xs partners-del" value="удалить">
+										С отмеченными <input type="button" name="partners-del"
+										                     class="btn btn-danger btn-xs partners-del" value="удалить">
 									</td>
 								</tr>
-								@else
+							@else
 								<td colspan="5">Пусто...</td>
 							@endif
 							</tbody>
 							<tfoot>
 							<tr>
 								<td colspan="6">
-										{{ $data->links() }}
+									{{ $data->links() }}
 								</td>
 							</tr>
 							</tfoot>
 						</table>
-							@token()
+						@token()
 					</div>
 				</div>
 			</div>

@@ -34,15 +34,19 @@
 		Route::get( '/admin/partners/create', 'PartnersController@create' );
 		Route::get( '/admin/partners/edit/{id}', 'PartnersController@edit' );
 
+
 		Route::post( '/admin/partners/create', 'PartnersController@store' );
 		Route::post( '/admin/partners/update', 'PartnersController@update' );
 		Route::get( '/admin/partners/delete/{id}', 'PartnersController@destroy' );
 		Route::post( '/admin/partners/delete', 'PartnersController@destroy' );
 
+		Route::post( '/partnerSearch', 'PartnersController@partnerSearch' );
+
 
 		Route::get( '/admin/messages', 'MessagesController@index' );
 		Route::get( '/admin/messages/create', 'MessagesController@create' );
 		Route::post( '/admin/messages/create', 'MessagesController@store' );
+		Route::get( '/admin/messages/show/{id}', 'MessagesController@show' );
 
 
 		Route::post( '/sendMail', 'MessagesController@sendMail' );

@@ -13,6 +13,8 @@
 <script src="/inspinia/js/plugins/easypiechart/jquery.easypiechart.js"></script>
 <!-- FooTable -->
 <script src="/inspinia/js/plugins/footable/footable.all.min.js"></script>
+<script src="/_admin/js/plugins/ckeditor/ckeditor.js"></script>
+<script src="/_admin/js/common.js"></script>
 <script>
 	$(document).ready(function() {
 		$('.items-table').footable();

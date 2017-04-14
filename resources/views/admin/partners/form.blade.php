@@ -32,11 +32,12 @@
 										<div class="col-xs-12">
 											<label for="email">Email *</label>
 											<input
-												type="email"
+												type="text"
+												{{--type="email"--}}
 												name="email"
 												class="form-control"
 												id="email"
-												value="{{$data->email or ''}}"
+												value="{{ $data->email or old('email') }}"
 												style="font-size: 24px; "
 												placeholder="Email">
 										</div>
@@ -58,7 +59,7 @@
 												name="description"
 												class="form-control"
 												id="description"
-												placeholder="Комментарий">{{$data->description or ''}}</textarea>
+												placeholder="Комментарий">{{$data->description or old('description')}}</textarea>
 										</div>
 									</div>
 									<hr class="sep-5">
@@ -66,16 +67,18 @@
 										<div class="col-xs-12">
 											@token()
 											@if(isset($data->id) )
-												<input type="hidden" name="id" value="{{$data->id}}">
+												<input type="hidden" name="id" value="{{$data->id or old('id')}}">
 											@endif
 											@if (count($errors) > 0)
-												<div class="alert alert-danger">
-													<ul>
-														@foreach ( $errors->all() as $error )
+
+												@foreach ( $errors->all() as $error )
+													<div class="alert alert-danger">
+														<ul>
 															<li style="font-size: 20px">{{ $error }}</li>
-														@endforeach
-													</ul>
-												</div>
+														</ul>
+													</div>
+												@endforeach
+
 											@endif
 											@if (\Session::has('message'))
 												<div class="alert alert-info">{!! \Session::get('message') !!}   </div>

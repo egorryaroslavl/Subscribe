@@ -2,6 +2,7 @@
 
 	namespace App\Http\Controllers;
 
+	use App\Http\Requests\StorePartners;
 	use Redis;
 	use App\Model\Partner;
 	use Illuminate\Support\Facades\Auth;
@@ -42,7 +43,7 @@
 			$partners         = Partner::paginate( 30 );
 			$user             = Auth();
 			$partners->action = 'create';
-			$breadcrumbs = '
+			$breadcrumbs      = '
 <h2>Партнёры</h2>
 	<ol class="breadcrumb">
 						<li>
@@ -61,26 +62,27 @@
 		}
 
 
-		public function store( Request $request )
+		public function store( StorePartners $request )
 		{
 
-			$v = Validator::make( $request->all(), [
-				'name'        => 'required|unique:partners|max:255',
-				'email'       => 'required|email|unique:partners|max:255',
-				'status'      => 'required',
-				'description' => 'max:800',
+			/*		$v = Validator::make( $request->all(), [
+						'name'        => 'required|unique:partners|max:255',
+						'email'       => 'required|email|unique:partners|max:255',
+						'status'      => 'required',
+						'description' => 'max:800',
 
-			] );
+					] );*/
+
+			/*
+						if( $v->fails() ){
 
 
-			if( $v->fails() ){
+							 return redirect( '/admin/partners/create' )
+								->withErrors( $v->errors() )
+								->withInput();
 
 
-				return redirect( '/admin/partners/create' )
-					->withErrors( $v->errors() )
-					->withInput();
-
-			}
+						}*/
 
 
 			$input = $request->all();
@@ -89,7 +91,7 @@
 			$id    = Partner::create( $input )->id;
 
 
-			return redirect( '/admin/partners/edit/' . $id )->with( 'message', 'Запись добавлена! ID-' . $id );
+			return back()->with( 'message', 'Запись добавлена! ID-' . $id )->withInput();
 		}
 
 
@@ -199,4 +201,22 @@
 			}
 
 		}
+
+
+		public function partnerSearch( Request $request )
+		{
+
+
+			$partners = \DB::table( 'partners' )
+				->where( 'name', 'LIKE', "%$request->partner_name%" )
+				->orWhere( 'email', 'LIKE', "%$request->partner_name%" )
+				->get();
+
+			$partners->request = $request->partner_name;
+
+			return view( 'common.partner_table' )->with( 'data', $partners );
+
+		}
+
+
 	}
