@@ -73,11 +73,11 @@ $( function(){
 		$.ajax( {
 			type   : "POST",
 			url    : "/testMail",
-			data   :  $('#data-form').serialize(),
+			data   : $( '#data-form' ).serialize(),
 			success: function( msg ){
 				var res = jQuery.parseJSON( msg );
 				if( res.error == 'ok' ){
-					 	alert("Тестовое сообщение отправлено! Поверьте почту.\nЕсли сообщение не содержит ошибок нажмите кнопку  \"ГОТОВО\" ");
+					alert( "Тестовое сообщение отправлено! Поверьте почту.\nЕсли сообщение не содержит ошибок нажмите кнопку  \"ГОТОВО\" " );
 				}
 				if( res.error == 'error' ){
 					alert( 'Операция закончилось ошибкой!' )
@@ -87,6 +87,49 @@ $( function(){
 
 	} );
 
+
+	$( "body" ).on( "keyup", "#partner-search", function(){
+
+		var partner_name = $( this ).val();
+		if( partner_name.length > 2 ){
+
+			$( "#partnerSearchResult" ).load( "/partnerSearch",
+				{
+
+						partner_name: partner_name,
+						_token      : $( "#_token" ).val()
+
+				},
+				function(){
+				} );
+
+			/*			$.ajax( {
+			 type   : "POST",
+			 url    : "/partnerSearch",
+			 data   : {
+			 partner_name: partner_name,
+			 _token      : $( "#_token" ).val()
+			 },
+			 success: function( msg ){
+			 var res = jQuery.parseJSON( msg );
+
+			 if( res.error === 'ok' && res.datalist.length ){
+
+			 var data = res.datalist;
+			 $( "#partner-datalist" ).empty();
+			 $( "#partner-search" ).after( data );
+
+
+
+			 }
+
+			 }
+			 } );*/
+
+		}
+
+
+	} );
 
 
 } );

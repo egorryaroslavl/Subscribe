@@ -4,8 +4,8 @@
  */
 
 CKEDITOR.editorConfig = function( config ){
-	//config.filebrowserBrowseUrl = '/elfinder/ckeditor';
-	config.filebrowserBrowseUrl = '/public/_admin/js/plugins/ckeditor';
+	config.filebrowserBrowseUrl = '/elfinder/ckeditor';
+	//	config.filebrowserBrowseUrl = '/public/_admin/js/plugins/ckeditor';
 	config.language = 'ru';
 	config.toolbarCanCollapse = true;
 	config.filebrowserUploadUrl = '/uploads';
