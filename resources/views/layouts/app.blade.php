@@ -21,7 +21,7 @@
                 </button>
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    Laravel
+                   tcyar.ru
                 </a>
             </div>
             <div class="collapse navbar-collapse" id="app-navbar-collapse">

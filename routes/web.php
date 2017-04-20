@@ -35,18 +35,23 @@
 		Route::get( '/admin/partners/edit/{id}', 'PartnersController@edit' );
 
 
-		Route::post( '/admin/partners/create', 'PartnersController@store' );
-		Route::post( '/admin/partners/update', 'PartnersController@update' );
+		Route::post( '/admin/partners/create', 'PartnersController@store' )
+			->middleware( 'partnerdataprepare' )->name('PartnersStore');
+		Route::post( '/admin/partners/update', 'PartnersController@update' )
+			->middleware( 'partnerdataprepare' );
 		Route::get( '/admin/partners/delete/{id}', 'PartnersController@destroy' );
 		Route::post( '/admin/partners/delete', 'PartnersController@destroy' );
 
 		Route::post( '/partnerSearch', 'PartnersController@partnerSearch' );
 
 
-		Route::get( '/admin/messages', 'MessagesController@index' );
+		Route::get( '/admin/messages', 'MessagesController@index' )->name( 'messagesList' );
 		Route::get( '/admin/messages/create', 'MessagesController@create' );
+
+		Route::get( '/admin/messages/copy/from/{id}', 'MessagesController@copy' );
 		Route::post( '/admin/messages/create', 'MessagesController@store' );
 		Route::get( '/admin/messages/show/{id}', 'MessagesController@show' );
+		Route::get( '/admin/messages/delete/{id}', 'MessagesController@destroy' );
 
 
 		Route::post( '/sendMail', 'MessagesController@sendMail' );

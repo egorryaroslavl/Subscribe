@@ -35,14 +35,15 @@
 								</th>
 								<th data-hide="name">Название</th>
 								<th data-hide="email">E-mail</th>
-								<th data-hide="phone">Статус</th>
+								<th data-hide="person">Контакт</th>
+								<th data-hide="status">Статус</th>
 								<th class="text-left" data-sort-ignore="true">Action</th>
 							</tr>
 
 							</thead>
 							<tbody>
 							<tr>
-								<td colspan="5" style="background: #ededed">
+								<td colspan="6" style="background: #ededed">
 									С отмеченными <input type="button" name="partners-del"
 									                     class="btn btn-danger btn-xs partners-del" value="удалить">
 								</td>
@@ -60,17 +61,19 @@
 										</td>
 
 										<td>
-											<a href="/admin/partners/edit/{{$item->id}}">{{$item->name}}</a>
+											<a title="{{$item->name}}" href="/admin/partners/edit/{{$item->id}}">{{str_limit($item->name,60)}}</a>
 										</td>
 										<td>
 											{{$item->email}}
 										</td>
-
+										<td title="{{$item->person}}" >
+											{{ str_limit($item->person,30) }}
+										</td>
 										<td>
 											{{$item->status}}
 
 										</td>
-										<td>
+										<td style="width:80px">
 											<div class="btn-group">
 												<a href="/admin/partners/edit/{{$item->id}}">
 													<button class="btn-info btn btn-xs"><i
@@ -85,7 +88,7 @@
 									</tr>
 								@endforeach
 								<tr>
-									<td colspan="5" style="background: #ededed">
+									<td colspan="6" style="background: #ededed">
 										С отмеченными <input type="button" name="partners-del"
 										                     class="btn btn-danger btn-xs partners-del" value="удалить">
 									</td>

@@ -7,3 +7,4 @@
 Homestead.json
 Homestead.yaml
 .env
+/resources/views/admin/common/dual_listbox.blade.php.old

@@ -18,7 +18,8 @@ $( function(){
 		selectorMinimalHeight: 160,
 		infoTextEmpty        : "Пустой список",
 		moveAllLabel         : 'Выбрать все',
-		removeAllLabel       : 'Отменить все'
+		removeAllLabel       : 'Отменить все',
+
 	} );
 
 
@@ -33,35 +34,41 @@ $( function(){
 				return false;
 			}
 
-			/* набиваем объект данными */
-			$( '.del-partner-checkbox:checkbox:checked' ).each( function(){
+			if( confirm( countChecked + " пунктов будет удалено!\nПродолжить?" ) ){
 
-				ids[ $( this ).data( 'id' ) ] = $( this ).data( 'id' );
 
-			} );
-			/* городим json */
-			var idsJson = JSON.stringify( ids );
 
-			/* идём генерить форму */
-			$.ajax( {
-				type   : "POST",
-				url    : "/admin/partners/delete",
-				data   : {
-					ids   : idsJson,
-					_token: $( "#_token" ).val()
-				},
-				success: function( msg ){
+				/* набиваем объект данными */
+				$( '.del-partner-checkbox:checkbox:checked' ).each( function(){
 
-					var res = jQuery.parseJSON( msg );
-					if( res.error == 'ok' ){
-						//	document.location.reload(true);
+					ids[ $( this ).data( 'id' ) ] = $( this ).data( 'id' );
+
+				} );
+				/* городим json */
+				var idsJson = JSON.stringify( ids );
+
+				/* идём генерить форму */
+				$.ajax( {
+					type   : "POST",
+					url    : "/admin/partners/delete",
+					data   : {
+						ids   : idsJson,
+						_token: $( "#_token" ).val()
+					},
+					success: function( msg ){
+
+						var res = jQuery.parseJSON( msg );
+						if( res.error == 'ok' ){
+							document.location.reload( true );
+						}
+						if( res.error == 'error' ){
+							alert( 'Операция закончилось ошибкой!' )
+						}
+
 					}
-					if( res.error == 'error' ){
-						alert( 'Операция закончилось ошибкой!' )
-					}
+				} );
+			}
 
-				}
-			} );
 		}
 
 	} );
@@ -96,35 +103,13 @@ $( function(){
 			$( "#partnerSearchResult" ).load( "/partnerSearch",
 				{
 
-						partner_name: partner_name,
-						_token      : $( "#_token" ).val()
+					partner_name: partner_name,
+					_token      : $( "#_token" ).val()
 
 				},
 				function(){
 				} );
 
-			/*			$.ajax( {
-			 type   : "POST",
-			 url    : "/partnerSearch",
-			 data   : {
-			 partner_name: partner_name,
-			 _token      : $( "#_token" ).val()
-			 },
-			 success: function( msg ){
-			 var res = jQuery.parseJSON( msg );
-
-			 if( res.error === 'ok' && res.datalist.length ){
-
-			 var data = res.datalist;
-			 $( "#partner-datalist" ).empty();
-			 $( "#partner-search" ).after( data );
-
-
-
-			 }
-
-			 }
-			 } );*/
 
 		}
 

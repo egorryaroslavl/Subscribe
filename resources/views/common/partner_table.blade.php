@@ -7,7 +7,7 @@ box-shadow: 0px 0px 30px 0px rgba(204,204,204,1);">
 	<tr>
 		<th colspan="5" style="background: #f9f9f9">
 			<h3><i class="fa fa-search" aria-hidden="true"></i> Результат поиска [<span
-					style="background: #ffed00;padding: 0 10px;font-style: italic;color:#000">{{ $data->request }}</span>]
+					style="background: #ffed00;padding: 0 10px;font-style: italic;color:#000">{{ $data->request }}</span>] - {{ count( $data) }} записей
 			</h3>
 		</th>
 		<th colspan="1" style="background: #f9f9f9"><i class="fa fa-close close-table"
@@ -26,7 +26,8 @@ box-shadow: 0px 0px 30px 0px rgba(204,204,204,1);">
 		</th>
 		<th data-hide="name">Название</th>
 		<th data-hide="email">E-mail</th>
-		<th data-hide="phone">Статус</th>
+		<th data-hide="person">Контакт</th>
+		<th data-hide="status">Статус</th>
 		<th class="text-left" data-sort-ignore="true">Action</th>
 	</tr>
 
@@ -45,17 +46,20 @@ box-shadow: 0px 0px 30px 0px rgba(204,204,204,1);">
 				</td>
 
 				<td>
-					<a href="/admin/partners/edit/{{$item->id}}">{{$item->name}}</a>
+					<a title="{{$item->name}}"
+					   href="/admin/partners/edit/{{$item->id}}">{{str_limit($item->name,60)}}</a>
 				</td>
 				<td>
 					{{$item->email}}
 				</td>
-
+				<td title="{{$item->person}}" >
+					{{ str_limit($item->person,30) }}
+				</td>
 				<td>
 					{{$item->status}}
 
 				</td>
-				<td>
+				<td style="width:80px">
 					<div class="btn-group">
 						<a href="/admin/partners/edit/{{$item->id}}">
 							<button class="btn-info btn btn-xs"><i
@@ -70,13 +74,13 @@ box-shadow: 0px 0px 30px 0px rgba(204,204,204,1);">
 			</tr>
 		@endforeach
 		<tr>
-			<td colspan="5" style="background: #ededed">
+			<td colspan="6" style="background: #ededed">
 				С отмеченными <input type="button" name="partners-del"
 				                     class="btn btn-danger btn-xs partners-del" value="удалить">
 			</td>
 		</tr>
 	@else
-		<td colspan="5">Пусто...</td>
+		<td colspan="6">Пусто...</td>
 	@endif
 	</tbody>
 	<tfoot>

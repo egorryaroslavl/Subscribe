@@ -10,7 +10,7 @@
 			name="partner_search"
 			id="partner-search"
 			list="partner-datalist"
-			placeholder="Название или Email">
+			placeholder="Название или Email или Обращение">
 
 		{{--<datalist id="partner-datalist"></datalist>--}}
 		<span class="input-group-btn">

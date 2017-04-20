@@ -12,7 +12,6 @@
 					<div id="tab-1" class="tab-pane active">
 						<div class="ibox-content">
 							<div class="row">
-
 								<div class="col-md-12">
 									<div class="row">
 										<div class="col-md-2">
@@ -24,9 +23,9 @@
 											<div class="row">
 												<div class="col-md-12">
 													<label for="name">Название сообщения *
-														<small style="color: #9c9c9c;font-weight: normal">(для
-														                                                  внутреннего
-														                                                  пользования)
+														<small style="color: #9c9c9c;font-weight: normal"> (для
+														                                                   внутреннего
+														                                                   пользования)
 														</small>
 													</label>
 													<input
@@ -63,16 +62,11 @@
 														placeholder="Url на сайте">
 												</div>
 											</div>
-
-
 										</div>
 									</div>
 								</div>
-
 							</div>
 							<hr class="sep-5">
-
-
 							<hr class="sep-5">
 							<div class="row">
 								<div class="col-xs-12">
@@ -85,8 +79,6 @@
 								</div>
 							</div>
 							<hr class="sep-5">
-
-
 							<div class="row">
 								<div class="col-xs-12">
 									<label for="message">Подпись</label>
@@ -100,10 +92,11 @@
 								<hr class="sep-5">
 								<div class="ibox-content">
 									<p>
-										Выберите адресатов из левого списка кликая по ним.<br>
-										Фильтр над списками поможет вам найти нужное.
+										Выберите адресатов из левого списка кликая двойным кликом по ним.<br>
+
 									</p>
-									{{ Widget::PartnersSelect() }}
+									{{--{{ Widget::PartnersSelect() }}--}}
+									@include('admin.common.dual_listbox')
 								</div>
 								<div class="row">
 									<div class="col-xs-12">
@@ -124,7 +117,6 @@
 										@if (\Session::has('message'))
 											<div class="alert alert-info">{!! \Session::get('message') !!}   </div>
 										@endif
-
 										<div id="result"></div>
 										<input
 											type="button"

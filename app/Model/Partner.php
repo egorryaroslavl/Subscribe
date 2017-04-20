@@ -19,7 +19,7 @@
 
 		}
 
-		public static function data( $id )
+		public static function partnerData( $id )
 		{
 
 			return Partner::find( $id );

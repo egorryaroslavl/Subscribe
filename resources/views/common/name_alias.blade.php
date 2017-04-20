@@ -16,7 +16,7 @@
 			name="person"
 			class="form-control"
 			id="person"
-			value="{{$data->person or old('person') }}"
+			value="{{$data->person or old('person')   }}"
 			placeholder="Обращение">
 	</div>
 

@@ -5,7 +5,7 @@
 		<div class="ibox-content m-b-sm border-bottom">
 			<a href="/admin/messages/create">
 				<button type="button" href="/admin/messages/create" class="btn btn-info" id="partner-create"><i
-						class="fa fa-plus"></i> Добавть
+						class="fa fa-plus"></i> Добавить
 				</button>
 			</a>
 		</div>
@@ -70,12 +70,19 @@
 										</td>--}}
 										<td>
 											<div class="btn-group">
-												<a href="/admin/messages/edit/{{$item->id}}">
-													<button class="btn-info btn btn-xs"><i
-															class="fa fa-pencil-square-o"></i></button>
+												<a href="/admin/messages/show/{{$item->id}}">
+													<button class="btn-info btn btn-xs" title="Смотреть"><i
+															class="fa fa-file-text"></i></button>
 												</a>
+
+													<a href="/admin/messages/copy/from/{{$item->id}}">
+													<button type="button" class="btn-info btn btn-xs" title="Новое сообщение этим получателям"><i
+															class="fa fa-reply-all"></i></button>
+												</a>
+
+
 												<a href="/admin/messages/delete/{{$item->id}}">
-													<button class="btn-danger btn btn-xs"><i
+													<button class="btn-danger btn btn-xs" title="Удалить"><i
 															class="fa fa-trash"></i></button>
 												</a>
 											</div>

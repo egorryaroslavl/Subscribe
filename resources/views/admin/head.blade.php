@@ -7,6 +7,7 @@
 	<link href="/inspinia/css/animate.css" rel="stylesheet">
 	<link href="/inspinia/css/style.css" rel="stylesheet">
 	<link href="/_admin/css/plugins/dualListbox/bootstrap-duallistbox.min.css" rel="stylesheet">
+	<link href="/_admin/css/dual_listbox.css" rel="stylesheet">
 	<link href="/inspinia/css/common.css" rel="stylesheet">
 	<script src="/inspinia/js/jquery-2.1.1.js"></script>
 	<script src="/_admin/js/plugins/dualListbox/jquery.bootstrap-duallistbox.js"></script>

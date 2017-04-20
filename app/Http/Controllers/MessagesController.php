@@ -6,6 +6,7 @@
 	use App\Model\History;
 	use App\Model\Message;
 	use App\Model\Partner;
+	use Illuminate\Routing\Route;
 	use Mail;
 	use DB;
 	use App\Mail\MailSubscribe;
@@ -22,18 +23,71 @@
 		{
 			$data = Message::orderBy( 'departure_date' )->paginate( 30 );
 
+			$breadcrumbs = '<h2>Сообщения</h2><ol class="breadcrumb"><li><a href="/admin">Главная</a></li><li>Сообщения</li></ol>';
+
+
+			\View::share( 'breadcrumbs', $breadcrumbs );
+
 			return view( 'admin.messages.index', [ 'data' => $data ] );
 		}
 
 
-		public function create()
+		public function create( Request $request )
 		{
 			$messages = new Message();
 
 			$messages->action = 'create';
 
+			$partners = \DB::table( 'partners' )
+				->orderBy( 'name', 'ASC' )
+				->get();
 
-			return view( 'admin.messages.form', [ 'data' => $messages ] );
+			if( isset( $request->ids ) ){
+				$messages->ids = $request->ids;
+
+			}
+
+
+			return view( 'admin.messages.form',
+				[
+					'data'  => $messages,
+					'first' => $partners,
+
+				] );
+		}
+
+
+		public function copy( $id )
+		{
+			$messages = new Message();
+
+			$data = Message::find( $id );
+
+			$messages->ids = $data->report[ 'ids' ];
+
+
+			$partners = \DB::table( 'partners' )
+				->whereNotIn( 'id', $messages->ids )
+				->orderBy( 'name', 'ASC' )
+				->get();
+
+			$messages->action = 'create';
+
+			$messages->ids = $data->report[ 'ids' ];
+
+
+			$partnersSelected = \DB::table( 'partners' )
+				->whereIn( 'id', $messages->ids )
+				->orderBy( 'name', 'ASC' )
+				->get();
+
+
+			return view( 'admin.messages.form',
+				[
+					'data'   => $messages,
+					'first'  => $partners,
+					'second' => $partnersSelected
+				] );
 		}
 
 
@@ -85,7 +139,7 @@
 
 			$subscribeList = [
 				[ 'email' => 'yaroslavl.city@gmail.com' ],
-				//[ 'email' => 'denis@tcyar.ru' ]
+				[ 'email' => 'denis@tcyar.ru' ]
 			];
 
 
@@ -114,6 +168,7 @@
 		 */
 		public function sendMail( Request $request )
 		{
+			//	dd( $request->all() );
 
 			$ok            = [];
 			$error         = [];
@@ -144,10 +199,10 @@
 
 			}
 
-			$message          = new Message();
-			$message->name    = empty( $data[ 'name' ] ) ? $data[ 'subject' ] : $data[ 'name' ];
-			$message->subject = $data[ 'subject' ];
-			 $message->message      = $data[ 'message' ];
+			$message               = new Message();
+			$message->name         = empty( $data[ 'name' ] ) ? $data[ 'subject' ] : $data[ 'name' ];
+			$message->subject      = $data[ 'subject' ];
+			$message->message      = $data[ 'message' ];
 			$message->message_type = $data[ 'message_type' ];
 
 			/*$message->history_id = $data[ 'history_id' ];*/
@@ -160,6 +215,8 @@
 				/*'data'    => $data*/
 			];
 			$message->save();
+			return redirect( '/admin/messages/show/' . $message->id )->with( 'message', 'Отправлено' );;
+
 		}
 
 
@@ -178,13 +235,41 @@
 							<a href="/admin/messages">Сообщения</a>
 						</li>
 					<li>
-							 ' .  $data->name . ' 
+							 ' . $data->name . ' 
 						</li>	
 						
 					</ol>';
 			\View::share( 'breadcrumbs', $breadcrumbs );
 
+
+			$subscribeList       = null;
+			$data->subscribeList = null;
+
+			if( count( $data->report[ 'ids' ] ) > 0 ){
+
+
+				$subscribeList = Partner::whereIn( 'id', $data->report[ 'ids' ] )->get();
+
+				$data->subscribeList = $subscribeList;
+			}
+
+
 			return view( 'admin.messages.show' )->with( 'data', $data );
+
+		}
+
+
+		public function destroy( $id )
+		{
+			if( $id ){
+
+				Message::find( $id )->delete();
+
+				return redirect()->route( 'messagesList' );
+
+
+			}
+
 
 		}
 

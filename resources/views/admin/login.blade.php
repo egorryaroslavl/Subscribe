@@ -13,7 +13,7 @@
 <body class="login">
 <div class="main-login col-sm-4 col-sm-offset-4 animated zoomIn">
 	<div class="logo">
-		<a href="/" style="font-size:36px">Animals</a>
+		<a href="/" style="font-size:36px">{{config('admin.settings.company_name')}}</a>
 	</div>
 	<div class="box-login" style="visibility:visible;display:block">
 		<h3 style="text-align:center">Войдите в административную часть</h3>
@@ -63,7 +63,7 @@
 			</div>
 		</form>
 	</div>
-	<div class="copyright">{{date('Y')}} &copy; Animals</div>
+	<div class="copyright">{{date('Y')}} &copy; {{config('admin.settings.company_name')}}</div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>

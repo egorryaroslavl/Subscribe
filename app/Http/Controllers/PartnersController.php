@@ -3,6 +3,7 @@
 	namespace App\Http\Controllers;
 
 	use App\Http\Requests\StorePartners;
+	use DB;
 	use Redis;
 	use App\Model\Partner;
 	use Illuminate\Support\Facades\Auth;
@@ -17,45 +18,26 @@
 		{
 
 
-			$data = Partner::orderBy( 'email' )->paginate( 30 );
+			$data = Partner::orderBy( 'name', 'ASC' )->paginate( 50 );
 
+			$breadcrumbs = '<h2>Партнёры</h2><ol class="breadcrumb"><li><a href="/admin">Главная</a></li><li>Партнёры</li></ol>';
 
-			$breadcrumbs = '
-<h2>Партнёры</h2>
-	<ol class="breadcrumb">
-						<li>
-							<a href="/admin">Главная</a>
-						</li>
-						<li>
-							Партнёры
-						</li>
-					</ol>';
 			\View::share( 'breadcrumbs', $breadcrumbs );
 
-
 			$data->table = 'partners';
+
 			return view( 'admin.partners.index', [ 'data' => $data ] );
 		}
 
 
 		public function create()
 		{
-			$partners         = Partner::paginate( 30 );
+			$partners         = Partner::paginate( 50 );
 			$user             = Auth();
 			$partners->action = 'create';
-			$breadcrumbs      = '
-<h2>Партнёры</h2>
-	<ol class="breadcrumb">
-						<li>
-							<a href="/admin">Главная</a>
-						</li>
-						<li>
-							<a href="/admin/partners">Партнёры</a>
-						</li>
-					<li>Добавление новой записи</li>	
-						
-					</ol>';
-			\View::share( 'breadcrumbs', $breadcrumbs );;
+			$breadcrumbs      = '<h2>Партнёры</h2><ol class="breadcrumb"><li><a href="/admin">Главная</a></li><li><a href="/admin/partners">Партнёры</a></li><li>Добавление новой записи</li></ol>';
+
+			\View::share( 'breadcrumbs', $breadcrumbs );
 
 			return view( 'admin.partners.form', [ 'data' => $partners, 'user' => $user ] );
 
@@ -65,31 +47,11 @@
 		public function store( StorePartners $request )
 		{
 
-			/*		$v = Validator::make( $request->all(), [
-						'name'        => 'required|unique:partners|max:255',
-						'email'       => 'required|email|unique:partners|max:255',
-						'status'      => 'required',
-						'description' => 'max:800',
-
-					] );*/
-
-			/*
-						if( $v->fails() ){
-
-
-							 return redirect( '/admin/partners/create' )
-								->withErrors( $v->errors() )
-								->withInput();
-
-
-						}*/
-
-
 			$input = $request->all();
 
 			$input = array_except( $input, '_token' );
-			$id    = Partner::create( $input )->id;
 
+			$id = Partner::create( $input )->id;
 
 			return back()->with( 'message', 'Запись добавлена! ID-' . $id )->withInput();
 		}
@@ -103,20 +65,8 @@
 			}
 			$partner->action = 'update';
 
-			$breadcrumbs = '
-<h2>Партнёры</h2>
-	<ol class="breadcrumb">
-						<li>
-							<a href="/admin">Главная</a>
-						</li>
-						<li>
-							<a href="/admin/partners">Партнёры</a>
-						</li>
-					<li>
-							 ' . $partner->name . ' 
-						</li>	
-						
-					</ol>';
+			$breadcrumbs = '<h2>Партнёры</h2><ol class="breadcrumb"><li><a href="/admin">Главная</a></li><li><a href="/admin/partners">Партнёры</a></li><li>' . $partner->name . '</li></ol>';
+
 			\View::share( 'breadcrumbs', $breadcrumbs );
 
 
@@ -143,7 +93,7 @@
 			] );
 
 
-			if( $v->fails() ){
+ 		if( $v->fails() ){
 
 
 				return redirect( '/admin/partners/edit/' . $request->id )
@@ -154,14 +104,16 @@
 
 
 			$partner              = Partner::find( $request->id );
-			$partner->name        = $request->name;
+ 		// dd( $partner );
+			$partner->name        = $request->name ;
 			$partner->person      = $request->person;
 			$partner->email       = $request->email;
 			$partner->description = $request->description;
 			$partner->save();
 
 
-			return redirect( '/admin/partners/edit/' . $request->id )->with( 'message', 'Запись обновлена!' );
+			return redirect( '/admin/partners/edit/' . $request->id )
+				->with( 'message', 'Запись обновлена!' );
 		}
 
 
@@ -174,7 +126,7 @@
 					Partner::find( $id )->delete();
 
 					return redirect()->back();
-					/*die( json_encode( [ 'error' => 'ok' ] ) );*/
+					 die( json_encode( [ 'error' => 'ok' ] ) );
 				}
 
 
@@ -210,6 +162,7 @@
 			$partners = \DB::table( 'partners' )
 				->where( 'name', 'LIKE', "%$request->partner_name%" )
 				->orWhere( 'email', 'LIKE', "%$request->partner_name%" )
+				->orWhere( 'person', 'LIKE', "%$request->partner_name%" )
 				->get();
 
 			$partners->request = $request->partner_name;

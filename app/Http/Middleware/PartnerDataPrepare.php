@@ -23,9 +23,9 @@
 
 			}
 
-			if( isset( $request['email'] ) ){
+			if( isset( $request[ 'email' ] ) ){
 
-				$request['email'] = strtolower( trim( $request['email'] ) );
+				$request[ 'email' ] = strtolower( trim( $request[ 'email' ] ) );
 
 			}
 
@@ -36,11 +36,22 @@
 			}
 
 
-			if( isset( $request['person'] ) ){
+			if( isset( $request[ 'person' ] ) ){
 
-				$request['person'] = mb_convert_case( trim( $request['person'] ), MB_CASE_TITLE, "UTF-8" );
+				$request[ 'person' ] = mb_convert_case( trim( $request[ 'person' ] ), MB_CASE_TITLE, "UTF-8" );
 			}
 
+
+			if( isset( $request->name ) ){
+
+				$request->name = trim( $request->name );
+			}
+
+
+			if( isset( $request[ 'name' ] ) ){
+
+				$request[ 'name' ] = trim( $request[ 'name' ] );
+			}
 
 			return $next( $request );
 		}
