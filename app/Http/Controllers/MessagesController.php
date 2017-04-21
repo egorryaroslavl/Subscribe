@@ -39,6 +39,7 @@
 			$messages->action = 'create';
 
 			$partners = \DB::table( 'partners' )
+				->orderBy( 'status', 'ASC' )
 				->orderBy( 'name', 'ASC' )
 				->get();
 

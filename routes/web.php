@@ -11,9 +11,16 @@
 	|
 	*/
 	Route::post( '/logout', 'Auth\LoginController@logout' );
+
 	Route::get( '/', function (){
 		return view( 'welcome' );
 	} );
+
+
+
+	Route::get( '/holliday_today', function (){
+		return view( 'hd' );
+	} )->name('holliday');
 
 	Auth::routes();
 
@@ -21,6 +28,10 @@
 
 
 	Route::group( [ 'middleware' => [ 'auth' ] ], function (){
+
+		Route::get( '/register', function (){
+			return redirect('/');
+		} );
 
 		Route::get( '/admin', function (){
 
@@ -36,7 +47,7 @@
 
 
 		Route::post( '/admin/partners/create', 'PartnersController@store' )
-			->middleware( 'partnerdataprepare' )->name('PartnersStore');
+			->middleware( 'partnerdataprepare' )->name( 'PartnersStore' );
 		Route::post( '/admin/partners/update', 'PartnersController@update' )
 			->middleware( 'partnerdataprepare' );
 		Route::get( '/admin/partners/delete/{id}', 'PartnersController@destroy' );

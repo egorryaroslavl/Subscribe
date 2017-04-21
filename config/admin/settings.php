@@ -12,6 +12,13 @@
 		'icon_height'       => 210,
 		'avatar_width'      => 200,
 		'avatar_height'     => 200,
+		'icon'              => [
+			'agency'  => 'fa fa-user-secret',
+			'tourist' => 'fa fa-heart',
+			'staff'   => 'fa fa-user',
+			'common'  => 'fa fa-question-circle',
+		],
+
 
 		'thumbnail_prefix'    => [
 			'small'  => 'thumb_small_',
@@ -36,9 +43,9 @@
 				'common'  => 'Общий'
 			]
 		],
-		'message_type' => [ 'reminder'  => 'Напоминание',
-		                    'offer'  => 'Предложение'
-		                      ]
+		'message_type' => [ 'reminder' => 'Напоминание',
+		                    'offer'    => 'Предложение'
+		]
 
 
 	];

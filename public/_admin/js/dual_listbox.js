@@ -7,11 +7,10 @@ $( function(){
 	allToFirst();
 	allSelectedToSecond();
 	allSelectedToFirst();
-/*	$('#first').selectable();
-	$('#second').selectable();*/
+	listCount();
 
 	$( "body" ).on( "click", "#first li,  #second li", function(){
-$(this).toggleClass('ui-selected')
+		$( this ).toggleClass( 'ui-selected' )
 	} );
 
 	/*  Туда  */
@@ -32,6 +31,7 @@ $(this).toggleClass('ui-selected')
 			setTimeout( function(){
 				element.remove()
 			}, 900 );
+			listCount();
 		} );
 	}
 
@@ -52,6 +52,7 @@ $(this).toggleClass('ui-selected')
 			setTimeout( function(){
 				element.remove()
 			}, 900 );
+			listCount();
 		} );
 	}
 
@@ -59,7 +60,7 @@ $(this).toggleClass('ui-selected')
 	function allToSecond(){
 
 		$( "body" ).on( "click", "#allToSecond", function(){
-			var allOptions = $( "#first li" );
+			var allOptions = $( "#first li:visible" );
 			if( allOptions.length > 0 ){
 				allOptions.each( function( i ){
 					var element = allOptions[ i ];
@@ -68,7 +69,8 @@ $(this).toggleClass('ui-selected')
 						.clone();
 					console.log( clone );
 					clone.prependTo( "#second" ).prop( 'selected', true );
-					element.remove()
+					element.remove();
+					listCount();
 				} );
 
 			}
@@ -80,7 +82,7 @@ $(this).toggleClass('ui-selected')
 	/*  Все Сюда  */
 	function allToFirst(){
 		$( "body" ).on( "click", "#allToFirst", function(){
-			var allOptions = $( "#second li" );
+			var allOptions = $( "#second li:visible" );
 			if( allOptions.length > 0 ){
 				allOptions.each( function( i ){
 					var element = allOptions[ i ];
@@ -89,12 +91,14 @@ $(this).toggleClass('ui-selected')
 						.clone();
 					console.log( clone );
 					clone.prependTo( "#first" );
-					element.remove()
+					element.remove();
+					listCount();
 				} );
 
 			}
 
 		} );
+
 	}
 
 
@@ -107,11 +111,12 @@ $(this).toggleClass('ui-selected')
 					var element = allOptions[ i ];
 					var clone = $( element )
 						.addClass( 'animated slideInLeft' )
-						.removeClass('ui-selected')
+						.removeClass( 'ui-selected' )
 						.clone();
 					console.log( clone );
 					clone.prependTo( "#second" ).prop( 'selected', true );
-					element.remove()
+					element.remove();
+					listCount();
 				} );
 
 			}
@@ -130,14 +135,33 @@ $(this).toggleClass('ui-selected')
 					var element = allOptions[ i ];
 					var clone = $( element )
 						.addClass( 'animated slideInRight' )
-						.removeClass('ui-selected')
+						.removeClass( 'ui-selected' )
 						.clone();
 					console.log( clone );
 					clone.prependTo( "#first" );
-					element.remove()
+					element.remove();
+					listCount();
 				} );
 			}
 		} );
+
 	}
+
+	function listCount(){
+
+		var ulFirst, ulSecond, li, showFirstNum, showSecondNum, numFirst, numSecond;
+
+		ulFirst = document.getElementById( 'first' );
+		ulSecond = document.getElementById( 'second' );
+		showFirstNum = document.getElementById( 'firstCount' );
+		showSecondNum = document.getElementById( 'secondCount' );
+		numFirst = ulFirst.getElementsByTagName( 'li' ).length;
+		numSecond = ulSecond.getElementsByTagName( 'li' ).length;
+		showFirstNum.innerHTML = numFirst;
+		showSecondNum.innerHTML = numSecond;
+
+
+	}
+
 } );
 

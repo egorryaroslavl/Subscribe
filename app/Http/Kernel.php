@@ -18,7 +18,7 @@
 			\Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
 			\App\Http\Middleware\TrimStrings::class,
 			\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-			//\App\Http\Middleware\PartnerDataPrepare::class,
+			 \App\Http\Middleware\RedirectifHolliday::class,
 		];
 
 		/**
